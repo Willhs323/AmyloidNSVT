@@ -1915,6 +1915,9 @@ freq(lge$VT_VF_WS)
 freq(lge$Subendo.LGE)
 freq(lge$Midwall.LGE)
 freq(lge$Subepi.LGE)
+lge$Mortality
+sum(lge$Mortality)
+sum(ansvt$Mortality)
 
         # For the 25
         lge <- subset(ansvt, subset = ansvt$Cardiac.MR.obtained.1...yes..0...no == 1 & ansvt$CMR.to.index > -1)
@@ -2208,7 +2211,19 @@ nsvtany <- ifelse(!is.na(ansvt[, 16]) & ansvt[, 16] == 1 |
 nsvtany
 sum(nsvtany)
 
+# Question of more likely to get holter with NSVT on first one
+nsvt <- subset(ansvt, subset = ansvt$NSVT == 1)
+dim(nsvt)
 
+nsvt$anynsvt
+
+sum(nsvt$anynsvt)
+
+ansvt$anynsvt <- nsvtany
+
+
+
+View(ansvt)
 
 nsvtallholter <- coxph(Surv(time = ansvt[,72], event = ansvt[,63]) ~ nsvtany)
 summary(nsvtallholter)
